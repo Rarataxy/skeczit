@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const roomRoutes = require('./routes/userRoutes.js');
+const userRoutes = require('./routes/userRoutes.js');
 const roomRoutes = require('./routes/roomRoutes.js');
 const app = express();
 app.use(express.json()); 
