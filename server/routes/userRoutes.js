@@ -2,7 +2,7 @@ const express = require('express');
 const userController = require('../controllers/userController');
 const router = express.Router();
 
-router.get("/:user_id", userController.showUserDetails)
+router.get("/:username", userController.showUserDetails)
 
 router.post("/create", userController.createUser);
 

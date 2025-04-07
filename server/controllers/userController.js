@@ -3,8 +3,6 @@ const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 const asyncHandler = require("express-async-handler");
 
-
-
 const createUser = asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -26,7 +24,6 @@ const createUser = asyncHandler(async (req, res, next) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     
-    console.log("add");
     const newUser = new User({
       username,
       email,
@@ -39,6 +36,19 @@ const createUser = asyncHandler(async (req, res, next) => {
     res.status(201).json({ user: newUser });
 })
 
+const showUserDetails = asyncHandler(async (req, res, next) => {
+    const user = await User.findOne({username: req.params.username});
+    if (!user) {
+        return res.status(404).json({ msg: 'User not found' });
+    }
+    const user_safe = {
+        username: user.username,
+        avatar: user.avatar
+    }
+    res.json(user_safe);
+})
+
 module.exports = {
-    createUser
+    createUser,
+    showUserDetails
 };
