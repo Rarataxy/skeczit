@@ -1,5 +1,4 @@
 const express = require('express');
-const { createRoom, addPlayerToRoom, getPlayersInRoom, startGame, updateScore } = require('../models/gameModel');
 const router = express.Router();
 
 router.get("/rooms", (req, res) => {
@@ -33,3 +32,5 @@ router.post("/rooms/:room_id/next_round", (req, res) => {
 router.post("/rooms/:room_id/end_game", (req, res) => {
     res.send('Game OVER');
 })
+
+module.exports = router;
