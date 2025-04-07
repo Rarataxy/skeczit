@@ -60,8 +60,27 @@ const leaveRoom = asyncHandler(async (req, res, next) => {
     res.send(`Player ${player} left room ${room_id}`);
 })
 
+const startGame = asyncHandler(async (req, res, next) => {
+    const { room_id } = req.params;
+
+    const room = await Room.findOne({ roomId: room_id });
+
+    if (!room) {
+      return res.status(404).send('Room not found');
+    }
+
+    if (room.currentPlayers < 2) {
+      return res.status(400).send('Not enough players to start the game');
+    }
+
+    room.currentRound = 1;
+    await room.save();
+    res.send(`Game started in room ${room_id}`);
+})
+
 module.exports = {
     createRoom,
     joinRoom,
-    leaveRoom
+    leaveRoom,
+    startGame
 };
