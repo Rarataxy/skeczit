@@ -39,7 +39,29 @@ const joinRoom = asyncHandler(async (req, res, next) => {
     res.send(`Player ${player} joined room ${room_id}`);
 })
 
+const leaveRoom = asyncHandler(async (req, res, next) => {
+    const { room_id } = req.params;
+    const { player } = req.body;
+
+    const room = await Room.findOne({ roomId: room_id });
+
+    if (!room) {
+      return res.status(404).send('Room not found');
+    }
+
+    const playerIndex = room.players.indexOf(player);
+    if (playerIndex === -1) {
+      return res.status(400).send('Player not in room');
+    }
+
+    room.players.splice(playerIndex, 1);
+    room.currentPlayers--;
+    await room.save();
+    res.send(`Player ${player} left room ${room_id}`);
+})
+
 module.exports = {
     createRoom,
-    joinRoom
+    joinRoom,
+    leaveRoom
 };
