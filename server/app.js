@@ -1,11 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const roomRoutes = require('./routes/userRoutes.js');
 const roomRoutes = require('./routes/roomRoutes.js');
 const app = express();
 app.use(express.json()); 
 
 const port = 3000;
 
+app.use('/rooms', userRoutes);
 app.use('/rooms', roomRoutes);
 
 mongoose.connect('mongodb://localhost:27017/skeczit', {
