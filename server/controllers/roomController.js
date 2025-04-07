@@ -99,10 +99,34 @@ const nextRound = asyncHandler(async (req, res, next) => {
     res.send(`Round ${room.currentRound} started in room ${room_id}`);
 })
 
+const getRoomStatus = asyncHandler(async (req, res, next) => {
+    const { room_id } = req.params;
+    const room = await Room.findOne({ roomId: room_id });
+
+    if (!room) {
+      return res.status(404).send('Room not found');
+    }
+
+    res.json({
+      roomId: room.roomId,
+      currentPlayers: room.currentPlayers,
+      maxPlayers: room.maxPlayers,
+      currentRound: room.currentRound,
+      gameStarted: room.gameStarted,
+      players: room.players
+    });
+})
+  
+const endGame = asyncHandler(async (req, res) => {
+    res.send("TODO");
+})
+
 module.exports = {
     createRoom,
     joinRoom,
     leaveRoom,
     startGame,
-    nextRound
+    nextRound,
+    getRoomStatus,
+    endGame
 };
