@@ -78,9 +78,31 @@ const startGame = asyncHandler(async (req, res, next) => {
     res.send(`Game started in room ${room_id}`);
 })
 
+const nextRound = asyncHandler(async (req, res, next) => {
+    const { room_id } = req.params;
+    const room = await Room.findOne({ roomId: room_id });
+
+    if (!room) {
+      return res.status(404).send('Room not found');
+    }
+
+    if (room.currentRound === 0) {
+      return res.status(400).send('Game has not started yet');
+    }
+
+    if (room.currentRound >= room.maxRounds) {
+      return res.status(400).send('Maximum rounds reached'); //TODO
+    }
+
+    room.currentRound++;
+    await room.save();
+    res.send(`Round ${room.currentRound} started in room ${room_id}`);
+})
+
 module.exports = {
     createRoom,
     joinRoom,
     leaveRoom,
-    startGame
+    startGame,
+    nextRound
 };
