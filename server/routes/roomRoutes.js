@@ -2,9 +2,7 @@ const express = require('express');
 const roomController = require('../controllers/roomController');
 const router = express.Router();
 
-router.get("/", (req, res) => {
-    res.send('List of rooms\nblah\blah\blah\n>;v');
-})
+router.get("/", roomController.listRooms)
 
 router.post("/create", roomController.createRoom);
 

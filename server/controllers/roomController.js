@@ -1,6 +1,11 @@
 const Room = require('../models/Room');
 const asyncHandler = require("express-async-handler");
 
+const listRooms = asyncHandler(async (req, res, next) => {
+  const rooms = await Room.find()
+  res.send(rooms)
+})
+
 const createRoom = asyncHandler(async (req, res, next) => {
     const { roomId, maxPlayers, maxRounds, password } = req.body;
 
@@ -122,6 +127,7 @@ const endGame = asyncHandler(async (req, res) => {
 })
 
 module.exports = {
+    listRooms,
     createRoom,
     joinRoom,
     leaveRoom,
