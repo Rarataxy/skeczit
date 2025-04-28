@@ -8,7 +8,6 @@ app.use(express.json());
 app.use(cors());
 
 const port = 3002;
-
 app.use('/user', userRoutes);
 app.use('/rooms', roomRoutes);
 
