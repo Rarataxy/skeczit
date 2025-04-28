@@ -3,6 +3,17 @@ const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 const asyncHandler = require("express-async-handler");
 
+function generateName(){
+  const adjectives = ["cute", "sussy", "gorgeous", "twisted", "broken", "smelly", "ugly", "wild", "fluffy", "shiny", "sweet", "creepy", "evil", "angry", "dirty", "sleepy", "bizarre", "weird", "messy", "hot", "cold", "grumpy", "soft", "hard", "stinky", "friendly", "lazy", "smooth", "rough", "bright", "dark", "sad", "happy", "funny", "flaky", "crazy", "clumsy", "dumb", "lazy", "sharp", "naughty", "fancy", "bad", "good", "cute", "serene", "smiling", "shy", "graceful", "cheerful", "shiny", "crystal", "mysterious", "innocent", "mellow", "beautiful", "serious", "awkward", "awkward", "bold", "confident", "fragile", "creepy", "gloomy", "fiery", "angelic", "demonic", "silly", "rich", "poor", "silent", "graceful", "hectic", "reckless", "heroic", "bubbly", "eccentric", "decayed", "twinkling", "cute", "dim", "reliable", "dangerous", "turbulent", "brilliant", "radiant", "hot", "sticky", "friendly", "irritating", "disastrous", "clean", "leaky", "creepy", "tender", "fluffy", "incredible", "intense", "clean", "warm", "soothing", "aggressive", "beautiful", "bitter", "refreshing", "toxic", "feisty", "spicy", "outgoing", "unstable", "sophisticated", "perfect", "nasty", "charming", "fashionable", "slimy"];
+  const nouns = ["baka", "kitten", "fairy", "demon", "angel", "dragon", "ninja", "robot", "zombie", "vampire", "wizard", "unicorn", "puppy", "kitty", "prince", "princess", "witch", "vampire", "goblin", "troll", "elf", "pirate", "werewolf", "ghost", "sorcerer", "warrior", "mage", "soldier", "detective", "champion", "assassin", "spirit", "phoenix", "sprite", "mermaid", "cyclops", "cyclone", "monster", "cat", "dog", "cloud", "star", "moon", "sun", "fire", "water", "earth", "air", "chaos", "peace", "love", "hate", "fear", "hope", "power", "light", "darkness", "flame", "heart", "soul", "mind", "sword", "shield", "axe", "bow", "spear", "gun", "knife", "staff", "orb", "potion", "elixir", "spell", "curse", "portal", "battle", "arena", "dojo", "temple", "lair", "cave", "forest", "desert", "island", "mountain", "ocean", "lake", "river", "field", "meadow", "village", "town", "city", "castle", "palace", "kingdom", "empire", "throne", "trophy", "shield", "medal", "badge", "helmet", "armor", "glove", "boot", "sword", "map", "compass", "book", "tome", "scroll", "letter", "coin", "token", "treasure", "gem", "diamond", "ruby", "emerald", "pearl", "gold", "silver", "bronze", "platinum", "iron", "wood", "stone", "metal", "crystal", "dust", "sand", "snow", "rain", "wind", "cloud", "wave", "beach", "leaf", "flower", "tree", "bush", "vine", "forest", "boulder", "rock", "stone", "root"];
+
+  const randomAdjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+  const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
+  const randomNumber = Math.floor(Math.random() * 99)
+
+  return randomAdjective + randomNoun + randomNumber;
+}
+
 const createUser = asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -48,6 +59,15 @@ const showUserDetails = asyncHandler(async (req, res, next) => {
     res.json(user_safe);
 })
 
+const guestLogin = asyncHandler(async (req, res, next) => {
+  const username = generateName();
+  const user_safe = {
+    "isGuest": true,
+    "username": username
+  }
+  res.json(user_safe);
+})
+
 const loginUser = asyncHandler(async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -76,5 +96,6 @@ const loginUser = asyncHandler(async (req, res, next) => {
 module.exports = {
     createUser,
     showUserDetails,
+    guestLogin,
     loginUser
 };
