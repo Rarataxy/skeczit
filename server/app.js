@@ -2,11 +2,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoutes.js');
 const roomRoutes = require('./routes/roomRoutes.js');
+const cors = require('cors');
 const app = express();
 app.use(express.json()); 
 
-const port = 3000;
-
+const port = 3002;
+app.use(cors());
 app.use('/user', userRoutes);
 app.use('/rooms', roomRoutes);
 
