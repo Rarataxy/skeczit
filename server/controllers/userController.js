@@ -48,7 +48,33 @@ const showUserDetails = asyncHandler(async (req, res, next) => {
     res.json(user_safe);
 })
 
+const loginUser = asyncHandler(async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    return res.status(400).json({ msg: 'Bad email' });
+  }
+
+  const samePassword = await bcrypt.compare(password, user.password);
+
+  if (samePassword) {
+    const user_safe = {
+      username: user.username,
+      avatar: user.avatar
+    }
+    return res.json(user_safe);
+  }
+  return res.status(403).json({ msg: 'Bad credentials.'})
+})
+
 module.exports = {
     createUser,
-    showUserDetails
+    showUserDetails,
+    loginUser
 };
