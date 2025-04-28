@@ -1,11 +1,13 @@
 const express = require('express');
+const cors = require("cors");
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoutes.js');
 const roomRoutes = require('./routes/roomRoutes.js');
 const app = express();
 app.use(express.json()); 
+app.use(cors());
 
-const port = 3000;
+const port = 3002;
 
 app.use('/user', userRoutes);
 app.use('/rooms', roomRoutes);
